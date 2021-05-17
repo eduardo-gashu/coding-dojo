@@ -19,7 +19,7 @@ repositories {
 
 val detektVersion = "1.16.0"
 val mockkVersion = "1.11.0"
-val kluentVersion = "1.8"
+val kluentVersion = "1.65"
 
 dependencies {
 
