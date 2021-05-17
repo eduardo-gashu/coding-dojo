@@ -1,6 +1,8 @@
 package com.creditas.codingdojo.boundaries.controllers
 
 import com.creditas.codingdojo.domain.Chat
+import com.creditas.codingdojo.domain.Client
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.amshove.kluent.`should be equal to`
 import org.junit.jupiter.api.Test
@@ -23,6 +25,7 @@ class ChatControllerTest(
     fun `should return 201 for a started chat`() {
 
         /// usuario
+        val client = Client(2, "Mario")
         /// msg
 
 
@@ -30,18 +33,23 @@ class ChatControllerTest(
 
         val payload = """
             {
-               "userId": 2,
+               "userId": ${client.id},
                "message": "Hello hello"
             }
         """.trimIndent()
 
 
-        val c  = mockMvc.perform(
+        val result  = mockMvc.perform(
             MockMvcRequestBuilders.post("/chat").content(payload).contentType(MediaType.APPLICATION_JSON)
         ).andExpect {
             it.response.status `should be equal to` HttpServletResponse.SC_CREATED
-            it.response.contentAsString `should be equal to` ObjectMapper().writeValueAsString(Chat())
-        }
+        }.andReturn()
+
+        val returnedChat = ObjectMapper()
+            .configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true)
+            .readValue(result.response.contentAsString, Chat::class.java)
+
+        returnedChat.client.id `should be equal to` client.id
     }
 
 
