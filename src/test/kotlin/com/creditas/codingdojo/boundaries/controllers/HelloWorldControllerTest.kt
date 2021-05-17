@@ -1,6 +1,6 @@
 package com.creditas.codingdojo.boundaries.controllers
 
-import org.amshove.kluent.`should equal`
+import org.amshove.kluent.`should be equal to`
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -20,6 +20,6 @@ class HelloWorldControllerTest(
             .andExpect { status { is2xxSuccessful() } }
             .andReturn()
 
-        result.response.contentAsString `should equal` "Hello World!"
+        result.response.contentAsString `should be equal to`  "Hello World!"
     }
 }
