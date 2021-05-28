@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.post
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class ClientControllerTest(
+class ChatControllerTest(
     @Autowired
     val mockMvc: MockMvc
 ) {
