@@ -17,15 +17,6 @@ class ChatControllerTest(
     @Autowired val clientRepository: ClientRepository
 ) {
     @Test
-    fun `it should return HTTP_CREATED with chat id`() {
-        val result = mockMvc.post("/chat")
-            .andExpect { status { isCreated() } }
-            .andReturn()
-
-        result.response.contentAsString `should be equal to` "123"
-    }
-
-    @Test
     fun `it should create a chat create by the received client`() {
         val client = clientRepository.findById(1)
 
@@ -39,6 +30,7 @@ class ChatControllerTest(
             .andExpect { status { isCreated() } }
             .andReturn()
 
-        result.response.contentAsString `should be equal to` "123"
+        val expectedResponse = """{"chatId":1,"createdBy":1}"""
+        result.response.contentAsString `should be equal to` expectedResponse
     }
 }

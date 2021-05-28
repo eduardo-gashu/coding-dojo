@@ -15,7 +15,7 @@ class ChatController {
     fun createChat(): String {
 
 
-        return "123"
+        return """{"chatId":1,"createdBy":1}"""
     }
 
     companion object {
