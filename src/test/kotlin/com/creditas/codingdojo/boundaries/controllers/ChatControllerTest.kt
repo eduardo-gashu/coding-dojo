@@ -1,5 +1,6 @@
 package com.creditas.codingdojo.boundaries.controllers
 
+import com.creditas.codingdojo.infrastructure.ClientRepository
 import org.amshove.kluent.`should be equal to`
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,8 +12,9 @@ import org.springframework.test.web.servlet.post
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 class ChatControllerTest(
-    @Autowired
-    val mockMvc: MockMvc
+    @Autowired val mockMvc: MockMvc,
+
+    @Autowired val clientRepository: ClientRepository
 ) {
     @Test
     fun `it should return HTTP_CREATED with chat id`() {
@@ -24,18 +26,19 @@ class ChatControllerTest(
     }
 
     @Test
-    fun `it should return HTTP_OK with hello world message`() {
-        val data = """
-            {
-                "text": "hello",
-                "chatId", 1
-            }
-        """.trimIndent();
+    fun `it should create a chat create by the received client`() {
+        val client = clientRepository.findById(1)
 
-        val result = mockMvc.post("/message", data)
-            .andExpect { status { is2xxSuccessful() } }
+        val payload = """
+            {
+                "client_id": ${client!!.id}
+            }
+        """.trimIndent()
+
+        val result = mockMvc.post("/chat")
+            .andExpect { status { isCreated() } }
             .andReturn()
 
-        result.response.contentAsString `should be equal to` "Hello World!"
+        result.response.contentAsString `should be equal to` "123"
     }
 }
