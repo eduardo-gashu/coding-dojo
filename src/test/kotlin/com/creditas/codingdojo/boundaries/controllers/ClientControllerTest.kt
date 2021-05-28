@@ -16,11 +16,11 @@ class ClientControllerTest(
 ) {
     @Test
     fun `it should return HTTP_CREATED with chat id`() {
-        val result = mockMvc.post("/create-chat")
+        val result = mockMvc.post("/chat")
             .andExpect { status { isCreated() } }
             .andReturn()
 
-        result.response.contentAsString `should be equal to` 1
+        result.response.contentAsString `should be equal to` "123"
     }
 
     @Test
